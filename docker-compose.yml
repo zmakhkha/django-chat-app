@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  web:
+    build: ./python
+    ports:
+      - "2600:2600"
+    container_name: djangoChat
+    volumes:
+      - ./python:/code
+    depends_on:
+      - data
+    networks: 
+      - dj_net
+
+  data:
+    build: ./data
+    restart: always
+    container_name: dataChat
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/data:/var/lib/mysql
+    networks: 
+      - dj_net
+
+volumes:
+  mariadb_data:
+
+networks:
+  dj_net:
+    driver: bridge
